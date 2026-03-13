@@ -1,0 +1,9 @@
+torch
+torchvision
+flask
+flask-cors
+Pillow
+numpy
+matplotlib
+seaborn
+jupyter
