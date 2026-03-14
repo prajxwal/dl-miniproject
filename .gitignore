@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Jupyter Notebook
+notebooks/.ipynb_checkpoints/
+.ipynb_checkpoints/
+
+# Dataset (large binary files, re-downloadable)
+data/
+
+# Trained model files (large binaries)
+model/*.pth
+model/*.pt
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Flask
+instance/
+*.log
