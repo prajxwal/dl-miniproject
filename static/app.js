@@ -290,6 +290,21 @@ function updatePrediction(result) {
 
     // Update main prediction
     const prevDigit = predictionDigit.textContent;
+    
+    if (digit === 10) {
+        predictionDigit.textContent = '?';
+        predictionCard.classList.add('active');
+        predictionConfidence.innerHTML = `Confidence: <span class="confidence-value">Not a digit (${(confidence * 100).toFixed(1)}%)</span>`;
+        // Reset 0-9 bars so they don't show confusing output
+        for (let i = 0; i < 10; i++) {
+            document.getElementById(`prob-bar-${i}`).style.width = '0%';
+            document.getElementById(`prob-value-${i}`).textContent = '0.0%';
+            document.getElementById(`prob-value-${i}`).classList.remove('highlight');
+            document.getElementById(`prob-digit-${i}`).classList.remove('highlight');
+        }
+        return;
+    }
+
     predictionDigit.textContent = digit;
     predictionCard.classList.add('active');
     

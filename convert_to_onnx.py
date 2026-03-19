@@ -15,7 +15,7 @@ class MNISTNet(nn.Module):
         self.dropout1 = nn.Dropout2d(0.25)
         self.dropout2 = nn.Dropout(0.5)
         self.fc1 = nn.Linear(64 * 7 * 7, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.fc2 = nn.Linear(128, 11)
 
     def forward(self, x):
         x = self.pool(F.relu(self.bn1(self.conv1(x))))

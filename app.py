@@ -18,9 +18,9 @@ CORS(app)
 try:
     session = ort.InferenceSession('model/mnist_cnn.onnx')
     input_name = session.get_inputs()[0].name
-    print('✅ ONNX Model loaded successfully!')
+    print('ONNX Model loaded successfully!')
 except Exception as e:
-    print(f'⚠️  Model file not found or failed to load: {e}')
+    print(f'Model file not found or failed to load: {e}')
     session = None
 
 
