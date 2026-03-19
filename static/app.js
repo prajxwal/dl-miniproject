@@ -27,7 +27,6 @@ let brushSize = 18;
 let hasDrawn = false;
 let predictTimeout = null;
 let strokes = [];       // Array of ImageData snapshots for undo
-let currentStroke = [];  // Points in current stroke
 
 // ─── Initialize ───
 function init() {
@@ -192,6 +191,20 @@ function handleTouchMove(e) {
     draw(mouseEvent);
 }
 
+// ─── UI Helpers ───
+function resetPredictionUI() {
+    predictionDigit.textContent = '?';
+    predictionConfidence.textContent = 'Draw a digit to start';
+    predictionCard.classList.remove('active');
+
+    for (let i = 0; i < 10; i++) {
+        document.getElementById(`prob-bar-${i}`).style.width = '0%';
+        document.getElementById(`prob-value-${i}`).textContent = '0.0%';
+        document.getElementById(`prob-value-${i}`).classList.remove('highlight');
+        document.getElementById(`prob-digit-${i}`).classList.remove('highlight');
+    }
+}
+
 // ─── Canvas Actions ───
 function clearCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -200,18 +213,7 @@ function clearCanvas() {
     strokes = [];
     hasDrawn = false;
     canvasHint.classList.remove('hidden');
-    
-    // Reset predictions
-    predictionDigit.textContent = '?';
-    predictionConfidence.textContent = 'Draw a digit to start';
-    predictionCard.classList.remove('active');
-    
-    for (let i = 0; i < 10; i++) {
-        document.getElementById(`prob-bar-${i}`).style.width = '0%';
-        document.getElementById(`prob-value-${i}`).textContent = '0.0%';
-        document.getElementById(`prob-value-${i}`).classList.remove('highlight');
-        document.getElementById(`prob-digit-${i}`).classList.remove('highlight');
-    }
+    resetPredictionUI();
 }
 
 function undoStroke() {
@@ -237,15 +239,7 @@ function undoStroke() {
     } else {
         hasDrawn = false;
         canvasHint.classList.remove('hidden');
-        predictionDigit.textContent = '?';
-        predictionConfidence.textContent = 'Draw a digit to start';
-        predictionCard.classList.remove('active');
-        for (let i = 0; i < 10; i++) {
-            document.getElementById(`prob-bar-${i}`).style.width = '0%';
-            document.getElementById(`prob-value-${i}`).textContent = '0.0%';
-            document.getElementById(`prob-value-${i}`).classList.remove('highlight');
-            document.getElementById(`prob-digit-${i}`).classList.remove('highlight');
-        }
+        resetPredictionUI();
     }
 }
 
@@ -304,6 +298,8 @@ function updatePrediction(result) {
         }
         return;
     }
+    // NOTE: When junk class is predicted, bars are reset above.
+    // For digits 0-9, show their actual probabilities from the first 10 entries.
 
     predictionDigit.textContent = digit;
     predictionCard.classList.add('active');
@@ -317,9 +313,7 @@ function updatePrediction(result) {
 
     predictionConfidence.innerHTML = `Confidence: <span class="confidence-value">${(confidence * 100).toFixed(1)}%</span>`;
 
-    // Update probability bars
-    const maxProb = Math.max(...probabilities);
-    
+    // Update probability bars (only indices 0-9, skip junk class)
     for (let i = 0; i < 10; i++) {
         const bar = document.getElementById(`prob-bar-${i}`);
         const value = document.getElementById(`prob-value-${i}`);

@@ -118,7 +118,7 @@ def predict():
         return jsonify({
             'digit': predicted_digit,
             'confidence': confidence,
-            'probabilities': probabilities.tolist()
+            'probabilities': probabilities[:10].tolist()  # Only send 0-9 digit probs to the frontend
         })
         
     except Exception as e:

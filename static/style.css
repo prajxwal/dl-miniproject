@@ -347,19 +347,6 @@ body {
     transition: width 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Override all bar color classes to black */
-.prob-bar-fill.bar-0,
-.prob-bar-fill.bar-1,
-.prob-bar-fill.bar-2,
-.prob-bar-fill.bar-3,
-.prob-bar-fill.bar-4,
-.prob-bar-fill.bar-5,
-.prob-bar-fill.bar-6,
-.prob-bar-fill.bar-7,
-.prob-bar-fill.bar-8,
-.prob-bar-fill.bar-9 {
-    background: var(--fg);
-}
 
 .prob-value {
     font-size: 0.7rem;
